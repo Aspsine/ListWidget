@@ -27,5 +27,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation project(':library')
-    implementation 'com.github.Aspsine:IRecyclerView:0.0.5'
+    implementation ('com.github.Aspsine:IRecyclerView:0.0.6') {
+        transitive = true
+        exclude group: 'com.android.support', module: 'support-v7'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
 }
