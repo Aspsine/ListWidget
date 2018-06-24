@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ListWidgetManager {
 
-    private final ViewHolderFactory mViewHolderFactory;
+    private final ViewHolderFactory<List<ItemData>, AdapterDataSource<List<ItemData>>> mViewHolderFactory;
 
     private final TypeMapper<List<ItemData>, AdapterDataSource<List<ItemData>>> mTypeMapper;
 
@@ -52,7 +52,7 @@ public class ListWidgetManager {
         mTypeMapper.registerType(ItemTypeConstants.TYPE_WATCH_COMMENT_ITEM);
     }
 
-    public ViewHolderFactory getItemViewHolderFactory() {
+    public ViewHolderFactory<List<ItemData>, AdapterDataSource<List<ItemData>>> getItemViewHolderFactory() {
         return mViewHolderFactory;
     }
 

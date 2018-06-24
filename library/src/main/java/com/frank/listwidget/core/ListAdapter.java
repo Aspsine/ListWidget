@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ListAdapter<T> extends AbsAdapter<List<T>, AdapterDataSource<List<T>>> {
 
-    public ListAdapter(@NonNull AdapterDataSource<List<T>> dataSource, @NonNull TypeMapper<List<T>, AdapterDataSource<List<T>>> typeMapper, @NonNull ViewHolderFactory viewHolderFactory) {
+    public ListAdapter(@NonNull AdapterDataSource<List<T>> dataSource, @NonNull TypeMapper<List<T>, AdapterDataSource<List<T>>> typeMapper, @NonNull ViewHolderFactory<List<T>, AdapterDataSource<List<T>>> viewHolderFactory) {
         super(dataSource, typeMapper, viewHolderFactory);
     }
 

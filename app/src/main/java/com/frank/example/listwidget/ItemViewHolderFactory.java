@@ -9,17 +9,21 @@ import com.frank.example.watch.sub.comment.CommentItemViewHolder;
 import com.frank.example.watch.sub.interactive.InteractiveViewHolder;
 import com.frank.example.watch.sub.playlist.PlayItemViewHolder;
 import com.frank.example.watch.sub.playlist.PlayListTitleViewHolder;
+import com.frank.listwidget.adapter.ItemData;
+import com.frank.listwidget.core.AdapterDataSource;
 import com.frank.listwidget.core.ItemViewHolder;
 import com.frank.listwidget.core.ViewHolderFactory;
+
+import java.util.List;
 
 /**
  * Created by zhangfan10 on 2017/9/30.
  */
 
-public class ItemViewHolderFactory implements ViewHolderFactory {
+public class ItemViewHolderFactory implements ViewHolderFactory<List<ItemData>, AdapterDataSource<List<ItemData>>> {
 
     @Override
-    public ItemViewHolder createItemViewHolder(ViewGroup parent, int type) {
+    public ItemViewHolder<List<ItemData>, AdapterDataSource<List<ItemData>>> createItemViewHolder(ViewGroup parent, int type) {
         final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         switch (type) {
 

@@ -3,12 +3,11 @@ package com.frank.listwidget.core;
 import android.view.View;
 
 /**
- * Created by zhangfan10 on 2017/9/29.
+ * Created by frank on 2018/6/24.
  */
 
-public interface ItemViewHolder {
-
-    void bindData(int position, AdapterDataSource adapterDataSource);
+public interface ItemViewHolder<T, DataSource extends AdapterDataSource<T>> {
+    void bindData(int position, DataSource adapterDataSource);
 
     View getItemView();
 

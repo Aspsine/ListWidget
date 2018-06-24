@@ -15,7 +15,8 @@ import java.util.List;
 
 public class ItemDataListAdapter extends ListAdapter<ItemData> {
 
-    public ItemDataListAdapter(@NonNull AdapterDataSource<List<ItemData>> dataSource, @NonNull TypeMapper<List<ItemData>, AdapterDataSource<List<ItemData>>> typeMapper, @NonNull ViewHolderFactory viewHolderFactory) {
+
+    public ItemDataListAdapter(@NonNull AdapterDataSource<List<ItemData>> dataSource, @NonNull TypeMapper<List<ItemData>, AdapterDataSource<List<ItemData>>> typeMapper, @NonNull ViewHolderFactory<List<ItemData>, AdapterDataSource<List<ItemData>>> viewHolderFactory) {
         super(dataSource, typeMapper, viewHolderFactory);
     }
 }

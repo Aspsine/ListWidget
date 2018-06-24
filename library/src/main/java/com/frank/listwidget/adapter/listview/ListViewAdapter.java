@@ -5,20 +5,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.frank.listwidget.core.AdapterDataSourceObserver;
 import com.frank.listwidget.core.Adapter;
+import com.frank.listwidget.core.AdapterDataSource;
+import com.frank.listwidget.core.AdapterDataSourceObserver;
 import com.frank.listwidget.core.ItemViewHolder;
 
 /**
  * Created by zhangfan10 on 2017/9/29.
  */
 
-public class ListViewAdapter extends BaseAdapter {
+public class ListViewAdapter<T, DataSource extends AdapterDataSource<T>> extends BaseAdapter {
 
     @NonNull
-    private final Adapter mInnerAdapter;
+    private final Adapter<T, DataSource> mInnerAdapter;
 
-    public ListViewAdapter(@NonNull Adapter adapter) {
+    public ListViewAdapter(@NonNull Adapter<T, DataSource> adapter) {
         this.mInnerAdapter = adapter;
         this.mInnerAdapter.getDataSource().registerObserver(new NotifyAdapterObserver(this));
     }
@@ -51,7 +52,7 @@ public class ListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final int viewType = mInnerAdapter.getItemViewType(position);
-        final ItemViewHolder itemViewHolder;
+        final ItemViewHolder<T, DataSource> itemViewHolder;
         if (convertView == null) {
             itemViewHolder = mInnerAdapter.onCreateViewHolder(parent, viewType);
             convertView = itemViewHolder.getItemView();

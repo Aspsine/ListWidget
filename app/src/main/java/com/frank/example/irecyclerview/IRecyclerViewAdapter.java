@@ -1,4 +1,4 @@
-package com.frank.listwidget.adapter.recyclerview;
+package com.frank.example.irecyclerview;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,25 +10,25 @@ import com.frank.listwidget.core.AdapterDataSourceObserver;
 import com.frank.listwidget.core.ItemViewHolder;
 
 /**
- * Created by zhangfan10 on 2017/9/29.
+ * Created by frank on 2018/6/24.
  */
 
-public class RecyclerViewAdapter<T, DataSource extends AdapterDataSource<T>> extends RecyclerView.Adapter<RecyclerViewItemViewHolder> {
+public class IRecyclerViewAdapter<T, DataSource extends AdapterDataSource<T>> extends RecyclerView.Adapter<IRecyclerViewItemViewHolder> {
     @NonNull
     private final Adapter<T, DataSource> mAdapter;
 
-    public RecyclerViewAdapter(@NonNull Adapter<T, DataSource> adapter) {
+    public IRecyclerViewAdapter(@NonNull Adapter<T, DataSource> adapter) {
         this.mAdapter = adapter;
         this.mAdapter.getDataSource().registerObserver(new NotifyAdapterObserver(this));
     }
 
     @Override
-    public RecyclerViewItemViewHolder<T, DataSource> onCreateViewHolder(ViewGroup viewGroup, int position) {
-        return new RecyclerViewItemViewHolder<>(mAdapter.onCreateViewHolder(viewGroup, position));
+    public IRecyclerViewItemViewHolder<T, DataSource> onCreateViewHolder(ViewGroup viewGroup, int position) {
+        return new IRecyclerViewItemViewHolder<>(mAdapter.onCreateViewHolder(viewGroup, position));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewItemViewHolder viewHolder, int position) {
+    public void onBindViewHolder(IRecyclerViewItemViewHolder viewHolder, int position) {
         final ItemViewHolder<T, DataSource> itemViewHolder = viewHolder.getItemViewHolder();
         itemViewHolder.bindPosition(position);
         mAdapter.onBindViewHolder(itemViewHolder, position);
@@ -47,9 +47,9 @@ public class RecyclerViewAdapter<T, DataSource extends AdapterDataSource<T>> ext
     private static class NotifyAdapterObserver extends AdapterDataSourceObserver {
 
         @NonNull
-        private final RecyclerView.Adapter<RecyclerViewItemViewHolder> mAdapter;
+        private final RecyclerView.Adapter<IRecyclerViewItemViewHolder> mAdapter;
 
-        private NotifyAdapterObserver(@NonNull RecyclerView.Adapter<RecyclerViewItemViewHolder> adapter) {
+        private NotifyAdapterObserver(@NonNull RecyclerView.Adapter<IRecyclerViewItemViewHolder> adapter) {
             mAdapter = adapter;
         }
 

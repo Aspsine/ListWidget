@@ -1,6 +1,4 @@
-package com.frank.listwidget.adapter;
-
-import com.frank.listwidget.core.AdapterDataSource;
+package com.frank.listwidget.core;
 
 import java.util.ArrayList;
 import java.util.List;

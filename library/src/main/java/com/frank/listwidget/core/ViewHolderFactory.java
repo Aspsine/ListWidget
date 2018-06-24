@@ -6,7 +6,7 @@ import android.view.ViewGroup;
  * Created by zhangfan10 on 2017/9/29.
  */
 
-public interface ViewHolderFactory {
+public interface ViewHolderFactory<T, DataSource extends AdapterDataSource<T>> {
 
-    ItemViewHolder createItemViewHolder(ViewGroup parent, int type);
+    ItemViewHolder<T, DataSource> createItemViewHolder(ViewGroup parent, int type);
 }

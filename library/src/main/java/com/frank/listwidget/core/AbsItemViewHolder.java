@@ -1,20 +1,21 @@
-package com.frank.listwidget.adapter;
+package com.frank.listwidget.core;
 
 import android.view.View;
 
+import com.frank.listwidget.core.AdapterDataSource;
 import com.frank.listwidget.core.ItemViewHolder;
 
 /**
  * Created by zhangfan10 on 2017/9/30.
  */
 
-public abstract class BaseItemViewHolder implements ItemViewHolder {
+public abstract class AbsItemViewHolder<T> implements ItemViewHolder<T, AdapterDataSource<T>> {
 
     private View mItemView;
 
     private int mPosition = -1;
 
-    public BaseItemViewHolder(View itemView) {
+    public AbsItemViewHolder(View itemView) {
         this.mItemView = itemView;
     }
 

@@ -13,12 +13,12 @@ public abstract class AbsAdapter<T, DataSource extends AdapterDataSource<T>> imp
     private final DataSource mDataSource;
 
     @NonNull
-    private final ViewHolderFactory mViewHolderFactory;
+    private final ViewHolderFactory<T, DataSource> mViewHolderFactory;
 
     @NonNull
     private final TypeMapper<T, DataSource> mTypeMapper;
 
-    public AbsAdapter(@NonNull DataSource dataSource, @NonNull TypeMapper<T, DataSource> typeMapper, @NonNull ViewHolderFactory viewHolderFactory) {
+    public AbsAdapter(@NonNull DataSource dataSource, @NonNull TypeMapper<T, DataSource> typeMapper, @NonNull ViewHolderFactory<T, DataSource> viewHolderFactory) {
         this.mDataSource = dataSource;
         this.mTypeMapper = typeMapper;
         this.mViewHolderFactory = viewHolderFactory;
@@ -42,12 +42,12 @@ public abstract class AbsAdapter<T, DataSource extends AdapterDataSource<T>> imp
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemViewHolder<T, DataSource> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return mViewHolderFactory.createItemViewHolder(parent, viewType);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder<T, DataSource> holder, int position) {
         holder.bindData(position, getDataSource());
     }
 

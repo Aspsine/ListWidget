@@ -13,9 +13,9 @@ public interface Adapter<T, DataSource extends AdapterDataSource<T>> {
     DataSource getDataSource();
 
     @NonNull
-    ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType);
+    ItemViewHolder<T, DataSource> onCreateViewHolder(@NonNull ViewGroup parent, int viewType);
 
-    void onBindViewHolder(@NonNull ItemViewHolder holder, int position);
+    void onBindViewHolder(@NonNull ItemViewHolder<T, DataSource> holder, int position);
 
     @NonNull
     Object getItem(int position);

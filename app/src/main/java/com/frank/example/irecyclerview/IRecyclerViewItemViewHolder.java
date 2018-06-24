@@ -1,19 +1,18 @@
-package com.frank.listwidget.adapter.recyclerview;
+package com.frank.example.irecyclerview;
 
-import android.support.v7.widget.RecyclerView;
-
+import com.aspsine.irecyclerview.IViewHolder;
 import com.frank.listwidget.core.AdapterDataSource;
 import com.frank.listwidget.core.ItemViewHolder;
 
 /**
- * Created by zhangfan10 on 2017/9/29.
+ * Created by frank on 2018/6/24.
  */
 
-public class RecyclerViewItemViewHolder<T, DataSource extends AdapterDataSource<T>> extends RecyclerView.ViewHolder {
+public class IRecyclerViewItemViewHolder<T, DataSource extends AdapterDataSource<T>> extends IViewHolder {
 
     private final ItemViewHolder<T, DataSource> mItemViewHolder;
 
-    public RecyclerViewItemViewHolder(ItemViewHolder<T, DataSource> itemViewHolder) {
+    public IRecyclerViewItemViewHolder(ItemViewHolder<T, DataSource> itemViewHolder) {
         super(itemViewHolder.getItemView());
         mItemViewHolder = itemViewHolder;
     }

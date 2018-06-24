@@ -1,20 +1,24 @@
 package com.frank.example.watch;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
 
+import com.aspsine.irecyclerview.IRecyclerView;
+import com.aspsine.irecyclerview.OnLoadMoreListener;
+import com.aspsine.irecyclerview.OnRefreshListener;
+import com.frank.example.irecyclerview.IRecyclerViewAdapter;
+import com.frank.example.irecyclerview.LoadMoreFooterView;
 import com.frank.example.listwidget.ListWidgetManager;
 import com.frank.example.listwidget.R;
-import com.frank.listwidget.adapter.AdapterHelper;
-import com.frank.listwidget.adapter.ListDataSource;
-import com.frank.listwidget.core.AdapterDataSource;
 import com.frank.listwidget.adapter.ItemData;
+import com.frank.listwidget.core.ListDataSource;
+import com.frank.listwidget.adapter.listview.ListViewAdapter;
+import com.frank.listwidget.adapter.recyclerview.RecyclerViewAdapter;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by zhangfan10 on 2017/9/29.
@@ -26,9 +30,11 @@ public class WatchVideoActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
 
-    private AdapterDataSource<List<ItemData>> mAdapterDataSource;
+    private IRecyclerView mIRecyclerView;
 
-    private Handler mHandler = new Handler();
+    private LoadMoreFooterView mLoadMoreFooterView;
+
+    private ListDataSource<ItemData> mListDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,48 +49,61 @@ public class WatchVideoActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mAdapterDataSource = new ListDataSource<>();
+        mListDataSource = new ListDataSource<>();
     }
 
     private void initView() {
         mListView = findViewById(R.id.listView);
-        final WatchVideoAdapter adapter1 = new WatchVideoAdapter(mAdapterDataSource);
-        AdapterHelper.setAdapter(mListView, adapter1);
+        mListView.setAdapter(new ListViewAdapter<>(new WatchVideoAdapter(mListDataSource)));
 
         mRecyclerView = findViewById(R.id.recyclerView);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        final WatchVideoAdapter adapter2 = new WatchVideoAdapter(mAdapterDataSource);
-        AdapterHelper.setAdapter(mRecyclerView, adapter2);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(new RecyclerViewAdapter<>(new WatchVideoAdapter(mListDataSource)));
+
+        mIRecyclerView = findViewById(R.id.iRecyclerView);
+        mIRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mIRecyclerView.setIAdapter(new IRecyclerViewAdapter<>(new WatchVideoAdapter(mListDataSource)));
+        mLoadMoreFooterView = (LoadMoreFooterView) mIRecyclerView.getLoadMoreFooterView();
+        mIRecyclerView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mIRecyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIRecyclerView.setRefreshing(false);
+                        mListDataSource.getAdapterData().add(0, new InnerItemData("refresh:" + new Date().toString(), -1));
+                        mListDataSource.notifyChanged();
+                    }
+                }, 200);
+
+            }
+        });
+
+        mIRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                if (mLoadMoreFooterView.canLoadMore()) {
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
+                    mIRecyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                            mListDataSource.getAdapterData().add(new InnerItemData("loadmore:" + new Date().toString(), -1));
+                            mListDataSource.notifyChanged();
+                        }
+                    }, 200);
+                }
+
+            }
+        });
     }
 
-    private int i;
-
     private void update() {
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ItemData itemData = new InnerItemData("position:" + i, i % ListWidgetManager.getInstance().getTypeMapper().getTypeCount());
-//                Log.i("update", itemData.toString());
-//                int size = mAdapterDataSource.getAdapterData().size();
-//                mAdapterDataSource.getAdapterData().add(0, itemData);
-//                if (size > 0) {
-//                    mAdapterDataSource.notifyItemRangeInserted(0, 1);
-//                } else {
-//                    mAdapterDataSource.notifyChanged();
-//                }
-//                i++;
-//                if (i < 100) {
-//                    update();
-//                }
-//            }
-//        }, 1000);
-
-        for (int i =0; i< 100; i ++) {
-            ItemData itemData = new InnerItemData("position:" + i, i % ListWidgetManager.getInstance().getTypeMapper().getTypeCount());
-            mAdapterDataSource.getAdapterData().add(itemData);
+        for (int i = 0; i < 20; i++) {
+            ItemData itemData = new InnerItemData("data:" + i, i % ListWidgetManager.getInstance().getTypeMapper().getTypeCount());
+            mListDataSource.getAdapterData().add(itemData);
         }
-        mAdapterDataSource.notifyChanged();
+        mListDataSource.notifyChanged();
     }
 
     class InnerItemData implements ItemData {
